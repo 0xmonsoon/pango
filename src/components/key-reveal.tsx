@@ -21,9 +21,9 @@ export function KeyReveal({ accessKey }: { accessKey: string }) {
   return (
     <div className="space-y-4">
       <p className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-700/50 dark:bg-amber-950/40 dark:text-amber-300">
-        This key is your <strong>only</strong> way to sign in. We can&apos;t reset
-        or recover it — if you lose it, the account and its data are gone. Store it
-        in a password manager now.
+        This key is your <strong>only</strong>{" "}way to sign in. We can&apos;t
+        reset or recover it — if you lose it, the account and its data are gone.
+        Store it in a password manager now.
       </p>
 
       <div className="select-all break-all rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-2 font-mono text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">

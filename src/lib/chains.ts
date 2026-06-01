@@ -43,6 +43,12 @@ export function chainLabel(kind: ChainKind): string {
   return CHAINS.find((c) => c.kind === kind)?.label ?? kind;
 }
 
+// Compact label for badges (drops qualifiers like "(transparent)" so it stays
+// narrow on mobile). The full label still appears in the chain picker.
+export function chainShortLabel(kind: ChainKind): string {
+  return kind === "zcash" ? "Zcash" : chainLabel(kind);
+}
+
 export function isChainKind(value: string): value is ChainKind {
   return (CHAIN_KINDS as readonly string[]).includes(value);
 }

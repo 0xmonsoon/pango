@@ -4,7 +4,7 @@ import {
   getUserPortfolio,
   type PortfolioView,
 } from "@/lib/portfolio-service";
-import { chainLabel, type ChainKind } from "@/lib/chains";
+import { chainLabel, chainShortLabel, type ChainKind } from "@/lib/chains";
 import { formatUsd, walletName } from "@/lib/format";
 import { refreshPortfolio } from "./actions";
 
@@ -116,14 +116,14 @@ function WalletTotals({
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <span
-                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${CHAIN_BADGE[w.chain]}`}
+                    className={`w-20 shrink-0 rounded-full py-0.5 text-center text-xs font-medium ${CHAIN_BADGE[w.chain]}`}
                   >
-                    {chainLabel(w.chain)}
+                    {chainShortLabel(w.chain)}
                   </span>
                   <span className="truncate font-medium text-zinc-900 dark:text-zinc-100">
                     {walletName(w.walletLabel, w.address)}
                   </span>
-                  <span className="shrink-0 text-xs text-zinc-400">
+                  <span className="hidden shrink-0 text-xs text-zinc-400 sm:inline">
                     {w.rows.length} asset{w.rows.length === 1 ? "" : "s"}
                   </span>
                 </div>
@@ -144,9 +144,9 @@ function WalletTotals({
 
 function NetWorthCard({ value, subtitle }: { value: number; subtitle: string }) {
   return (
-    <section className="flex-1 rounded-2xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-950">
+    <section className="min-w-0 flex-1 rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
       <p className="text-sm text-zinc-500 dark:text-zinc-400">Total net worth</p>
-      <p className="mt-1 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+      <p className="mt-1 break-words text-3xl font-bold tracking-tight tabular-nums text-zinc-900 dark:text-zinc-50 sm:text-4xl">
         {formatUsd(value)}
       </p>
       <p className="mt-2 text-xs text-zinc-400">{subtitle}</p>

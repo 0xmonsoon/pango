@@ -95,12 +95,12 @@ export default async function WalletsPage({
             className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-emerald-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
           />
         </div>
-        <div className="mt-3 flex items-center justify-between">
+        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-zinc-400">
             EVM addresses cover all EVM chains. Zcash supports transparent
             (t-addr) only.
           </p>
-          <button className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500">
+          <button className="w-full shrink-0 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 sm:w-auto">
             Add wallet
           </button>
         </div>
