@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signup, type SignupState } from "@/app/auth/actions";
 import { AuthShell, buttonClass } from "@/components/auth-shell";
 import { KeyReveal } from "@/components/key-reveal";
+import { Spinner } from "@/components/submit-button";
 
 export default function SignupPage() {
   const [state, action, pending] = useActionState<SignupState, FormData>(
@@ -43,8 +44,19 @@ export default function SignupPage() {
           only way to sign in, and it can&apos;t be recovered — so save it as soon
           as you see it.
         </p>
-        <button type="submit" disabled={pending} className={buttonClass}>
-          {pending ? "Generating…" : "Generate my access key"}
+        <button
+          type="submit"
+          disabled={pending}
+          className={`${buttonClass} inline-flex items-center justify-center gap-2 disabled:cursor-not-allowed`}
+        >
+          {pending ? (
+            <>
+              <Spinner />
+              Generating…
+            </>
+          ) : (
+            "Generate my access key"
+          )}
         </button>
       </form>
     </AuthShell>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/auth/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
@@ -25,9 +26,12 @@ export function AppHeader() {
             <span className="text-emerald-500">●</span> Pango
           </Link>
           <form action={signOut}>
-            <button className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900">
+            <SubmitButton
+              className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900"
+              pendingLabel="Signing out…"
+            >
               Sign out
-            </button>
+            </SubmitButton>
           </form>
         </div>
         {/* Nav tabs on their own row — scroll horizontally on very small screens */}

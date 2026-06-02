@@ -4,6 +4,7 @@ import { CHAINS, type ChainKind } from "@/lib/chains";
 import { getUserPortfolio } from "@/lib/portfolio-service";
 import type { WalletBreakdown } from "@/lib/portfolio";
 import { WalletCard } from "@/components/wallet-card";
+import { SubmitButton } from "@/components/submit-button";
 import { addWallet } from "./actions";
 
 interface Wallet {
@@ -100,9 +101,12 @@ export default async function WalletsPage({
             EVM addresses cover all EVM chains. Zcash supports transparent
             (t-addr) only.
           </p>
-          <button className="w-full shrink-0 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 sm:w-auto">
+          <SubmitButton
+            className="w-full shrink-0 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 sm:w-auto"
+            pendingLabel="Adding…"
+          >
             Add wallet
-          </button>
+          </SubmitButton>
         </div>
       </form>
 
