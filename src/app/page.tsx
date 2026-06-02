@@ -1,8 +1,22 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 const CHAINS = ["EVM", "Solana", "Bitcoin", "Zcash (transparent)"];
 
-export default function Home() {
+// Auth-aware so a returning, signed-in visitor lands on "Enter app" instead of
+// being shown "Sign in" again — their session cookie persists for ~400 days, so
+// the homepage should reflect that rather than always rendering the logged-out CTA.
+export default async function Home() {
+  let signedIn = false;
+  if (isSupabaseConfigured) {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    signedIn = Boolean(user);
+  }
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-20 text-center dark:bg-black">
       <div className="mb-6 flex items-center gap-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -28,18 +42,29 @@ export default function Home() {
       </div>
 
       <div className="mt-8 flex gap-3">
-        <Link
-          href="/signup"
-          className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
-        >
-          Get started
-        </Link>
-        <Link
-          href="/login"
-          className="rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900"
-        >
-          Sign in
-        </Link>
+        {signedIn ? (
+          <Link
+            href="/dashboard"
+            className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
+          >
+            Enter app
+          </Link>
+        ) : (
+          <>
+            <Link
+              href="/signup"
+              className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
+            >
+              Get started
+            </Link>
+            <Link
+              href="/login"
+              className="rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900"
+            >
+              Sign in
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

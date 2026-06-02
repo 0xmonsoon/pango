@@ -5,6 +5,7 @@ import { chainShortLabel, type ChainKind } from "@/lib/chains";
 import { formatUsd, shortenAddress } from "@/lib/format";
 import type { WalletBreakdown } from "@/lib/portfolio";
 import { removeWallet } from "@/app/(app)/wallets/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 interface WalletCardProps {
   wallet: { id: string; chain: ChainKind; address: string; label: string | null };
@@ -64,9 +65,12 @@ export function WalletCard({ wallet, breakdown }: WalletCardProps) {
           <div className="flex justify-end border-t border-zinc-100 px-4 py-3 dark:border-zinc-800/60 sm:px-5">
             <form action={removeWallet}>
               <input type="hidden" name="id" value={wallet.id} />
-              <button className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 hover:border-red-400 hover:text-red-600 dark:border-zinc-700 dark:text-zinc-300">
+              <SubmitButton
+                className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 hover:border-red-400 hover:text-red-600 dark:border-zinc-700 dark:text-zinc-300"
+                pendingLabel="Removing…"
+              >
                 Remove wallet
-              </button>
+              </SubmitButton>
             </form>
           </div>
         </div>

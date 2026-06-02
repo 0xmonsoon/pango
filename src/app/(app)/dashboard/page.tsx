@@ -7,6 +7,7 @@ import {
 import { chainLabel, chainShortLabel, type ChainKind } from "@/lib/chains";
 import { formatUsd, walletName } from "@/lib/format";
 import { refreshPortfolio } from "./actions";
+import { SubmitButton } from "@/components/submit-button";
 
 const CHAIN_COLOR: Record<ChainKind, string> = {
   evm: "bg-emerald-500",
@@ -66,9 +67,12 @@ export default async function DashboardPage() {
           subtitle={`${portfolio.walletCount} wallet${portfolio.walletCount === 1 ? "" : "s"} · updated ${timeAgo(lastUpdatedIso)}`}
         />
         <form action={refreshPortfolio}>
-          <button className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900">
+          <SubmitButton
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900"
+            pendingLabel="Refreshing…"
+          >
             ↻ Refresh
-          </button>
+          </SubmitButton>
         </form>
       </div>
 

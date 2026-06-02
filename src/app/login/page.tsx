@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { login } from "@/app/auth/actions";
-import { AuthShell, buttonClass, fieldClass } from "@/components/auth-shell";
+import { AuthShell, fieldClass } from "@/components/auth-shell";
+import { SubmitButton } from "@/components/submit-button";
 
 export default async function LoginPage({
   searchParams,
@@ -35,9 +36,7 @@ export default async function LoginPage({
           spellCheck={false}
           className={`${fieldClass} resize-none break-all font-mono`}
         />
-        <button type="submit" className={buttonClass}>
-          Sign in
-        </button>
+        <SubmitButton pendingLabel="Signing in…">Sign in</SubmitButton>
       </form>
     </AuthShell>
   );
