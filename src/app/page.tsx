@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { LinkLabel } from "@/components/link-label";
 
 const CHAINS = ["EVM", "Solana", "Bitcoin", "Zcash (transparent)"];
 
@@ -45,9 +46,10 @@ export default async function Home() {
         {signedIn ? (
           <Link
             href="/dashboard"
+            prefetch={false}
             className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
           >
-            Enter app
+            <LinkLabel>Enter app</LinkLabel>
           </Link>
         ) : (
           <>
