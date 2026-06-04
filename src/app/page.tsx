@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { LinkPending } from "@/components/link-pending";
 
 const CHAINS = ["EVM", "Solana", "Bitcoin", "Zcash (transparent)"];
 
@@ -45,9 +46,11 @@ export default async function Home() {
         {signedIn ? (
           <Link
             href="/dashboard"
-            className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
+            prefetch={false}
+            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
           >
             Enter app
+            <LinkPending />
           </Link>
         ) : (
           <>

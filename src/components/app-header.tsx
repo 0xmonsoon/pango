@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/auth/actions";
 import { SubmitButton } from "@/components/submit-button";
+import { LinkPending } from "@/components/link-pending";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
@@ -42,13 +43,15 @@ export function AppHeader() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={false}
                 className={
                   active
-                    ? "shrink-0 rounded-lg bg-zinc-100 px-3 py-1.5 font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50"
-                    : "shrink-0 rounded-lg px-3 py-1.5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                    ? "inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 py-1.5 font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50"
+                    : "inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 }
               >
                 {item.label}
+                <LinkPending />
               </Link>
             );
           })}
