@@ -55,4 +55,9 @@ prices work keyless; without `ZERION_API_KEY`, EVM and Solana are skipped.
 | `bun run start` | Serve the production build |
 | `bun run lint` | Lint |
 
-See [`PLAN.md`](./PLAN.md) for architecture, data model, and adapter design.
+## Known gaps & decisions
+
+- Solana DeFi positions are out of scope until Zerion supports them (it currently
+  returns "not supported"); Solana tokens are covered.
+- Zcash shielded funds are intentionally out of scope — transparent addresses only.
+- Zerion bills per request, so the cache-first refresh model is required, not optional.
