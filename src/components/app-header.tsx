@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/auth/actions";
 import { SubmitButton } from "@/components/submit-button";
-import { LinkLabel } from "@/components/link-label";
+import { LinkLabel, LinkStatusReporter } from "@/components/link-label";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
@@ -14,6 +15,10 @@ const NAV = [
 
 export function AppHeader() {
   const pathname = usePathname();
+  // The brand logo links to /dashboard, but the loading spinner should appear
+  // on the Dashboard nav tab — not on the logo. Track the logo's navigation
+  // here and feed it to that tab's LinkLabel via `forcePending`.
+  const [brandToDashboardPending, setBrandToDashboardPending] = useState(false);
 
   return (
     <header className="border-b border-zinc-200 dark:border-zinc-800">
@@ -23,13 +28,10 @@ export function AppHeader() {
           <Link
             href="/dashboard"
             prefetch={false}
-            className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+            className="flex items-center gap-2 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
           >
-            <LinkLabel>
-              <span className="flex items-center gap-2">
-                <span className="text-emerald-500">●</span> Pango
-              </span>
-            </LinkLabel>
+            <span className="text-emerald-500">●</span> Pango
+            <LinkStatusReporter onChange={setBrandToDashboardPending} />
           </Link>
           <form action={signOut}>
             <SubmitButton
@@ -55,7 +57,13 @@ export function AppHeader() {
                     : "shrink-0 rounded-lg px-3 py-1.5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 }
               >
-                <LinkLabel>{item.label}</LinkLabel>
+                <LinkLabel
+                  forcePending={
+                    item.href === "/dashboard" && brandToDashboardPending
+                  }
+                >
+                  {item.label}
+                </LinkLabel>
               </Link>
             );
           })}
