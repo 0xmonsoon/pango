@@ -22,9 +22,14 @@ export function AppHeader() {
         <div className="flex items-center justify-between gap-2 py-3 sm:py-4">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
+            prefetch={false}
+            className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
           >
-            <span className="text-emerald-500">●</span> Pango
+            <LinkLabel>
+              <span className="flex items-center gap-2">
+                <span className="text-emerald-500">●</span> Pango
+              </span>
+            </LinkLabel>
           </Link>
           <form action={signOut}>
             <SubmitButton
