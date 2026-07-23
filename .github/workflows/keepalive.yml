@@ -1,0 +1,16 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    # Run once a day at 03:00 UTC
+    - cron: "0 3 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call Supabase keepalive function
+        run: |
+          curl -sS -f "https://cypckrujxtesxnfwaicp.supabase.co/functions/v1/keepalive"
