@@ -25,6 +25,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.token-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2371717a' stroke-width='1.5' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 0.875rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+}
+
 /* Tailwind v4's Preflight resets buttons to cursor:default — restore pointer. */
 @layer base {
   button:not(:disabled),

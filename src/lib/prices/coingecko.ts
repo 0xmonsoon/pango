@@ -35,7 +35,7 @@ export async function getPrices(
     });
     for (const id of missing) {
       const price = data[id]?.usd;
-      if (typeof price === "number") {
+      if (typeof price === "number" && Number.isFinite(price) && price >= 0) {
         priceCache.set(id, { price, at: now });
         out[id] = price;
       }
@@ -63,5 +63,78 @@ export async function getHistoricalPrice(
   const data = await fetchJson<{
     market_data?: { current_price?: { usd?: number } };
   }>(url, { headers: headers() });
-  return data.market_data?.current_price?.usd ?? null;
+  const price = data.market_data?.current_price?.usd;
+  return typeof price === "number" && Number.isFinite(price) && price > 0 ? price : null;
+}
+
+export interface CoinSearchResult {
+  id: string;
+  symbol: string;
+  name: string;
+}
+
+export interface CoinMarket extends CoinSearchResult {
+  current_price: number | null;
+}
+
+export async function searchCoins(query: string): Promise<CoinSearchResult[]> {
+  const data = await fetchJson<{ coins: CoinSearchResult[] }>(
+    `${BASE}/search?query=${encodeURIComponent(query)}`, { headers: headers() },
+  );
+  return data.coins.slice(0, 20).map(({ id, symbol, name }) => ({ id, symbol, name }));
+}
+
+const marketCache = new Map<string, { coin: CoinMarket; at: number }>();
+
+const slugCache = new Map<string, { id: string; at: number }>();
+
+export async function resolveCoinSlug(slug: string): Promise<{ coin?: CoinMarket; candidates: CoinSearchResult[] }> {
+  const cached = slugCache.get(slug);
+  const id = cached && Date.now() - cached.at < 3_600_000 ? cached.id : slug;
+  const direct = (await getCoinMarkets([id])).get(id);
+  if (direct) return { coin: direct, candidates: [] };
+
+  // Search the page's name, then verify web_slug. A ticker/name match alone
+  // must never select a different asset with a similar name.
+  let candidates = await searchCoins(slug);
+  if (!candidates.length && slug.includes("-")) candidates = await searchCoins(slug.replaceAll("-", " "));
+  const normalizedName = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  candidates.sort((a, b) => Number(normalizedName(b.name) === slug) - Number(normalizedName(a.name) === slug));
+  for (const candidate of candidates) {
+    let detail: { id: string; web_slug?: string };
+    try {
+      detail = await fetchJson(`${BASE}/coins/${encodeURIComponent(candidate.id)}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false`, { headers: headers() });
+    } catch {
+      // Let the user select a search result if the metadata service is limited.
+      return { candidates };
+    }
+    if (detail.web_slug?.toLowerCase() === slug) {
+      slugCache.set(slug, { id: detail.id, at: Date.now() });
+      const coin = (await getCoinMarkets([detail.id])).get(detail.id);
+      return { coin, candidates };
+    }
+  }
+  return { candidates };
+}
+
+export async function getCoinMarkets(ids: string[], force = false): Promise<Map<string, CoinMarket>> {
+  const result = new Map<string, CoinMarket>();
+  const missing: string[] = [];
+  for (const id of new Set(ids)) {
+    const hit = marketCache.get(id);
+    if (!force && hit && Date.now() - hit.at < PRICE_TTL_MS) result.set(id, hit.coin);
+    else missing.push(id);
+  }
+  for (let i = 0; i < missing.length; i += 100) {
+    const query = new URLSearchParams({ vs_currency: "usd", ids: missing.slice(i, i + 100).join(","), per_page: "100" });
+    const coins = await fetchJson<CoinMarket[]>(`${BASE}/coins/markets?${query}`, { headers: headers() });
+    for (const coin of coins) {
+      const price = coin.current_price;
+      const normalized = { id: coin.id, name: coin.name, symbol: coin.symbol,
+        current_price: typeof price === "number" && Number.isFinite(price) && price >= 0 ? price : null };
+      marketCache.set(coin.id, { coin: normalized, at: Date.now() });
+      result.set(coin.id, normalized);
+    }
+  }
+  return result;
 }

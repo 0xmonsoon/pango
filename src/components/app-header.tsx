@@ -10,6 +10,7 @@ import { LinkLabel, LinkStatusReporter } from "@/components/link-label";
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/wallets", label: "Wallets" },
+  { href: "/tokens", label: "Tokens" },
   { href: "/account", label: "Account" },
 ];
 
