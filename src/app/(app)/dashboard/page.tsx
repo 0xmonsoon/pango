@@ -8,6 +8,7 @@ import { chainLabel, chainShortLabel, type ChainKind } from "@/lib/chains";
 import { formatUsd, walletName } from "@/lib/format";
 import { refreshPortfolio } from "./actions";
 import { SubmitButton } from "@/components/submit-button";
+import { ManualHoldingsList } from "@/components/manual-holdings-list";
 
 const CHAIN_COLOR: Record<ChainKind, string> = {
   evm: "bg-emerald-500",
@@ -43,16 +44,17 @@ export default async function DashboardPage() {
     );
   }
 
-  if (portfolio.walletCount === 0) {
+  if (portfolio.walletCount === 0 && portfolio.manualHoldings.length === 0 && portfolio.warnings.length === 0) {
     return (
       <>
-        <NetWorthCard value={0} subtitle="No wallets tracked yet." />
+        <NetWorthCard value={0} subtitle="No wallets or manual tokens tracked yet." />
         <Link
           href="/wallets"
           className="mt-6 inline-block rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500"
         >
           Add your first wallet →
         </Link>
+        <Link href="/tokens" className="ml-4 inline-block text-sm font-semibold text-emerald-600">Add a token →</Link>
       </>
     );
   }
@@ -64,7 +66,7 @@ export default async function DashboardPage() {
       <div className="flex items-start justify-between gap-4">
         <NetWorthCard
           value={netWorthUsd}
-          subtitle={`${portfolio.walletCount} wallet${portfolio.walletCount === 1 ? "" : "s"} · updated ${timeAgo(lastUpdatedIso)}`}
+          subtitle={`${portfolio.walletCount} wallet${portfolio.walletCount === 1 ? "" : "s"} · ${portfolio.manualHoldings.length} manual token${portfolio.manualHoldings.length === 1 ? "" : "s"} · updated ${timeAgo(lastUpdatedIso)}`}
         />
         <form action={refreshPortfolio}>
           <SubmitButton
@@ -76,8 +78,10 @@ export default async function DashboardPage() {
         </form>
       </div>
 
-      {byChain.length > 0 ? (
-        <AllocationBar byChain={byChain} total={netWorthUsd} />
+      <Link href="/tokens" className="mt-4 inline-block text-sm font-semibold text-emerald-600">Add a token →</Link>
+
+      {byChain.length > 0 || portfolio.manualHoldings.length > 0 ? (
+        <AllocationBar byChain={byChain} total={netWorthUsd} manualUsd={portfolio.manualHoldings.reduce((sum, h) => sum + (h.usdValue ?? 0), 0)} />
       ) : null}
 
       {warnings.length > 0 ? (
@@ -88,7 +92,8 @@ export default async function DashboardPage() {
         </ul>
       ) : null}
 
-      <WalletTotals byWallet={byWallet} netWorthUsd={netWorthUsd} />
+      {byWallet.length > 0 ? <WalletTotals byWallet={byWallet} netWorthUsd={netWorthUsd} /> : null}
+      {portfolio.manualHoldings.length > 0 ? <ManualHoldingsList rows={portfolio.manualHoldings} /> : null}
     </>
   );
 }
@@ -161,9 +166,11 @@ function NetWorthCard({ value, subtitle }: { value: number; subtitle: string }) 
 function AllocationBar({
   byChain,
   total,
+  manualUsd,
 }: {
   byChain: { chain: ChainKind; usd: number }[];
   total: number;
+  manualUsd: number;
 }) {
   if (total <= 0) return null;
   return (
@@ -177,6 +184,7 @@ function AllocationBar({
             title={`${chainLabel(c.chain)}: ${formatUsd(c.usd)}`}
           />
         ))}
+        {manualUsd > 0 ? <div className="bg-sky-500" style={{ width: `${(manualUsd / total) * 100}%` }} title={`Manual tokens: ${formatUsd(manualUsd)}`} /> : null}
       </div>
       <div className="mt-3 flex flex-wrap gap-4 text-xs">
         {byChain.map((c) => (
@@ -190,8 +198,8 @@ function AllocationBar({
             </span>
           </span>
         ))}
+        {manualUsd > 0 ? <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-sky-500" /><span>Manual tokens</span><span className="text-zinc-400">{((manualUsd / total) * 100).toFixed(1)}%</span></span> : null}
       </div>
     </div>
   );
 }
-

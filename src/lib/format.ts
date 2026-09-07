@@ -8,6 +8,12 @@ export function formatUsd(value: number): string {
   }).format(value);
 }
 
+// Preserve useful precision for tokens priced below one cent.
+export function formatTokenPrice(value: number): string {
+  if (value === 0 || Math.abs(value) >= 0.01) return formatUsd(value);
+  return `$${value.toLocaleString("en-US", { maximumSignificantDigits: 6 })}`;
+}
+
 export function shortenAddress(addr: string): string {
   return addr.length > 16 ? `${addr.slice(0, 8)}…${addr.slice(-6)}` : addr;
 }

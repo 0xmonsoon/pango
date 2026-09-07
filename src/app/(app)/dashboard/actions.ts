@@ -9,5 +9,6 @@ import { getUserPortfolio } from "@/lib/portfolio-service";
 export async function refreshPortfolio() {
   await getUserPortfolio({ force: true });
   revalidatePath("/dashboard");
+  revalidatePath("/tokens");
   redirect("/dashboard");
 }

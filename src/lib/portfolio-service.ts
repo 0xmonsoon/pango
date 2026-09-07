@@ -3,9 +3,9 @@ import { createAdminClient, hasAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getHoldings } from "@/lib/adapters";
 import type { HoldingRow } from "@/lib/adapters";
+import { getManualHoldings, type ManualHolding } from "@/lib/manual-holdings";
 import {
   combinePortfolio,
-  emptyPortfolio,
   type Portfolio,
   type Wallet,
   type WalletHoldings,
@@ -14,6 +14,7 @@ import {
 const SNAPSHOT_TTL_MS = 5 * 60 * 1000;
 
 export interface PortfolioView extends Portfolio {
+  manualHoldings: ManualHolding[];
   lastUpdatedIso: string | null;
   cachePersisted: boolean;
   configured: boolean;
@@ -67,18 +68,14 @@ export async function getUserPortfolio(
     .select("id, chain, address, label");
   const wallets = (walletData ?? []) as Wallet[];
 
-  if (wallets.length === 0) {
-    return {
-      ...emptyPortfolio(0),
-      lastUpdatedIso: null,
-      cachePersisted: hasAdminClient,
-      configured: true,
-    };
-  }
+  const manual = await getManualHoldings(supabase, user.id, opts.force);
 
   const admin = hasAdminClient ? createAdminClient() : null;
   const now = Date.now();
   const fetchedAts: number[] = [];
+  for (const holding of manual.rows) {
+    if (holding.priceUpdatedAt) fetchedAts.push(Date.parse(holding.priceUpdatedAt));
+  }
 
   // Most recent snapshot for a wallet (rows + when it was taken), any age.
   async function latestSnapshot(
@@ -163,7 +160,9 @@ export async function getUserPortfolio(
   );
 
   const portfolio = combinePortfolio(parts);
-  if (!admin) {
+  portfolio.netWorthUsd += manual.rows.reduce((sum, h) => sum + (h.usdValue ?? 0), 0);
+  portfolio.warnings.push(...manual.warnings);
+  if (!admin && wallets.length > 0) {
     portfolio.warnings.unshift(
       "Snapshot cache disabled (set SUPABASE_SERVICE_ROLE_KEY); balances are fetched live each load.",
     );
@@ -172,6 +171,7 @@ export async function getUserPortfolio(
   const oldest = fetchedAts.length ? Math.min(...fetchedAts) : now;
   return {
     ...portfolio,
+    manualHoldings: manual.rows,
     lastUpdatedIso: new Date(oldest).toISOString(),
     cachePersisted: Boolean(admin),
     configured: true,
