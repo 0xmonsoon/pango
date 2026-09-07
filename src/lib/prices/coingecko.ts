@@ -49,7 +49,7 @@ export async function getPrice(id: string): Promise<number | null> {
   return (await getPrices([id]))[id] ?? null;
 }
 
-// Historical USD price on a given date — used to derive cost basis for manual holdings.
+// Historical USD price on a given date - used to derive cost basis for manual holdings.
 export async function getHistoricalPrice(
   id: string,
   date: Date,

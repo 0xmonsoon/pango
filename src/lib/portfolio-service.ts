@@ -114,7 +114,7 @@ export async function getUserPortfolio(
       // to ≤1/sec, so concurrent wallets queue rather than getting rate-limited.)
       const res = await getHoldings(wallet.chain, wallet.address);
 
-      // A failed fetch must NOT poison the cache or show $0 — fall back to the
+      // A failed fetch must NOT poison the cache or show $0 - fall back to the
       // last good snapshot if we have one, otherwise surface the warning.
       if (res.failed) {
         const snap = await latestSnapshot(wallet.id);

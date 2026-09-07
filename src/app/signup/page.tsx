@@ -17,7 +17,7 @@ export default function SignupPage() {
     return (
       <AuthShell
         title="Your access key"
-        subtitle="Copy it and keep it safe — you'll need it to sign in."
+        subtitle="Copy it and keep it safe - you'll need it to sign in."
       >
         <KeyReveal accessKey={state.key} />
       </AuthShell>
@@ -27,7 +27,7 @@ export default function SignupPage() {
   return (
     <AuthShell
       title="Create your account"
-      subtitle="No email, no password. We generate one secret access key — that's your whole login."
+      subtitle="No email, no password. We generate one secret access key - that's your whole login."
       error={state && !state.ok ? state.error : undefined}
       footer={
         <>
@@ -41,7 +41,7 @@ export default function SignupPage() {
       <form action={action} className="space-y-3">
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           We&apos;ll generate a one-of-a-kind access key for you. It&apos;s the
-          only way to sign in, and it can&apos;t be recovered — so save it as soon
+          only way to sign in, and it can&apos;t be recovered - so save it as soon
           as you see it.
         </p>
         <button

@@ -1,5 +1,5 @@
 // Supported chains and lightweight address validation.
-// These regexes are input sanity checks, not full checksum validation — the
+// These regexes are input sanity checks, not full checksum validation - the
 // chain adapters (phase 3) perform real lookups and will reject bad addresses.
 
 export const CHAIN_KINDS = ["evm", "solana", "bitcoin", "zcash"] as const;
@@ -35,7 +35,7 @@ export const CHAINS: ChainMeta[] = [
     kind: "zcash",
     label: "Zcash (transparent)",
     placeholder: "t1… / t3…",
-    hint: "Transparent addresses only — shielded (z) addresses can't be tracked",
+    hint: "Transparent addresses only - shielded (z) addresses can't be tracked",
   },
 ];
 

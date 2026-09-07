@@ -37,7 +37,7 @@ export default async function DashboardPage() {
     ? await getUserPortfolio()
     : null;
 
-  // Not connected to Supabase yet — show the shell with guidance.
+  // Not connected to Supabase yet - show the shell with guidance.
   if (!portfolio) {
     return (
       <NetWorthCard value={0} subtitle="Connect Supabase and add wallets to see your net worth." />

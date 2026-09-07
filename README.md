@@ -1,17 +1,17 @@
 # Pango
 
 A crypto portfolio tracker. Sign in with a generated access key, add wallet
-addresses across chains, and see a unified net worth — tokens, DeFi positions,
+addresses across chains, and see a unified net worth - tokens, DeFi positions,
 and prices in one dashboard.
 
 ## Features
 
-- **Access-key auth** — one random key is your only credential. No email, no
+- **Access-key auth** - one random key is your only credential. No email, no
   password. The raw key is never stored, so keep it safe (lose it = lose the account).
-- **Multi-chain wallets** — track EVM, Solana, Bitcoin, and Zcash (transparent) addresses.
-- **Manual tokens** — search CoinGecko, enter quantity or USD spent, and use a buy
+- **Multi-chain wallets** - track EVM, Solana, Bitcoin, and Zcash (transparent) addresses.
+- **Manual tokens** - search CoinGecko, enter quantity or USD spent, and use a buy
   price or historical buy date. View current value, cost, and unrealized gain/loss.
-- **Unified dashboard** — net worth, per-chain allocation, and a holdings table,
+- **Unified dashboard** - net worth, per-chain allocation, and a holdings table,
   with cached snapshots and on-demand refresh.
 
 ## Data sources
@@ -45,7 +45,7 @@ Then, in the Supabase SQL editor, run `supabase/migrations/0001_init.sql`.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only; mints accounts at signup |
 
-Chain/price API keys (see `.env.local.example`) are optional — Bitcoin and
+Chain/price API keys (see `.env.local.example`) are optional - Bitcoin and
 prices work keyless; without `ZERION_API_KEY`, EVM and Solana are skipped.
 
 ## Scripts
@@ -78,5 +78,5 @@ CoinGecko references: [search](https://docs.coingecko.com/reference/search-data)
 
 - Solana DeFi positions are out of scope until Zerion supports them (it currently
   returns "not supported"); Solana tokens are covered.
-- Zcash shielded funds are intentionally out of scope — transparent addresses only.
+- Zcash shielded funds are intentionally out of scope - transparent addresses only.
 - Zerion bills per request, so the cache-first refresh model is required, not optional.

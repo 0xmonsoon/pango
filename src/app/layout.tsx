@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pango — Crypto Portfolio Tracker",
+  title: "Pango - Crypto Portfolio Tracker",
   description:
     "Track your entire crypto net worth across EVM, Solana, Bitcoin, and Zcash, including DeFi positions and manual holdings.",
 };

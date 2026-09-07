@@ -50,7 +50,7 @@ export default async function WalletsPage({
 
       {!isSupabaseConfigured ? (
         <p className="mb-6 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-700/50 dark:bg-amber-950/40 dark:text-amber-300">
-          Supabase keys not set — connect a project in{" "}
+          Supabase keys not set - connect a project in{" "}
           <code className="font-mono">.env.local</code> to save wallets.
         </p>
       ) : null}

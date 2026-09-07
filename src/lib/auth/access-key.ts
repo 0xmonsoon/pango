@@ -1,5 +1,5 @@
 // Access-key auth: the user's whole identity is one long random string ("key").
-// We never store the raw key — Supabase only ever sees sha256(key) as the email
+// We never store the raw key - Supabase only ever sees sha256(key) as the email
 // local-part and the key itself as the (bcrypt-hashed) password. So the key alone
 // is the single secret needed to sign in, and it can't be recovered from the DB.
 //

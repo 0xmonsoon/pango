@@ -15,7 +15,7 @@ export function getAdapter(chain: ChainKind): ChainAdapter {
   return ADAPTERS[chain];
 }
 
-// Never throws — upstream/network errors become a warning so one bad wallet
+// Never throws - upstream/network errors become a warning so one bad wallet
 // can't break the whole portfolio aggregation.
 export async function getHoldings(
   chain: ChainKind,

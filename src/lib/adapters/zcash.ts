@@ -33,7 +33,7 @@ export const zcashAdapter: ChainAdapter = {
         failed: true,
         warnings: [
           msg.includes("430")
-            ? "Zcash rate-limited by Blockchair — set BLOCKCHAIR_API_KEY for reliable lookups."
+            ? "Zcash rate-limited by Blockchair - set BLOCKCHAIR_API_KEY for reliable lookups."
             : `Zcash lookup failed: ${msg}`,
         ],
       };
@@ -47,7 +47,7 @@ export const zcashAdapter: ChainAdapter = {
         totalUsd: 0,
         failed: true,
         warnings: [
-          "Zcash balance unavailable from Blockchair (likely rate-limited — set BLOCKCHAIR_API_KEY).",
+          "Zcash balance unavailable from Blockchair (likely rate-limited - set BLOCKCHAIR_API_KEY).",
         ],
       };
     }

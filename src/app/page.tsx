@@ -6,7 +6,7 @@ import { LinkLabel } from "@/components/link-label";
 const CHAINS = ["EVM", "Solana", "Bitcoin", "Zcash (transparent)"];
 
 // Auth-aware so a returning, signed-in visitor lands on "Enter app" instead of
-// being shown "Sign in" again — their session cookie persists for ~400 days, so
+// being shown "Sign in" again - their session cookie persists for ~400 days, so
 // the homepage should reflect that rather than always rendering the logged-out CTA.
 export default async function Home() {
   let signedIn = false;
@@ -28,7 +28,7 @@ export default async function Home() {
       </h1>
       <p className="mt-4 max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
         Track tokens and DeFi positions across chains, plus manually-entered
-        assets — all in a single portfolio view.
+        assets - all in a single portfolio view.
       </p>
 
       <div className="mt-6 flex flex-wrap items-center justify-center gap-2">

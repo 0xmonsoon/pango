@@ -4,14 +4,14 @@ import type { AdapterResult, ChainAdapter, HoldingRow } from "./types";
 import type { ChainKind } from "@/lib/chains";
 
 // Tokens + DeFi positions via the Zerion API. One key covers both EVM and Solana.
-// Requires ZERION_API_KEY (free dev keys begin with `zk_`) — no-ops without it.
+// Requires ZERION_API_KEY (free dev keys begin with `zk_`) - no-ops without it.
 // Auth is HTTP Basic with the key as the username and an empty password.
 //
 // Two chain-specific quirks, verified against live calls (do not "simplify" away):
 //  - The default chain set is EVM-only, so a Solana address returns nothing unless
 //    we pass filter[chain_ids]=solana explicitly.
 //  - filter[positions]=only_complex / no_filter are NOT supported for Solana
-//    ("not supported for Solana addresses"), so Solana must use only_simple —
+//    ("not supported for Solana addresses"), so Solana must use only_simple -
 //    i.e. Zerion exposes Solana token balances but not Solana DeFi positions yet.
 const BASE = "https://api.zerion.io/v1";
 const KEY = process.env.ZERION_API_KEY;
@@ -21,7 +21,7 @@ const AUTH = KEY ? `Basic ${btoa(`${KEY}:`)}` : null;
 
 // Zerion's free tier allows ~1 request/second. The aggregator fans out across
 // all wallets at once, so we funnel every Zerion call through one serialized
-// queue that spaces requests out — otherwise concurrent wallets get throttled
+// queue that spaces requests out - otherwise concurrent wallets get throttled
 // (HTTP 429) and come back empty. Module-global so it spans the whole process.
 const MIN_INTERVAL_MS = 1100;
 let queue: Promise<unknown> = Promise.resolve();
@@ -51,7 +51,7 @@ const QUERY: Record<ChainKind, string> = {
   evm: "currency=usd&filter%5Bpositions%5D=no_filter&filter%5Btrash%5D=only_non_trash&sort=value",
   solana:
     "currency=usd&filter%5Bchain_ids%5D=solana&filter%5Bpositions%5D=only_simple&filter%5Btrash%5D=only_non_trash&sort=value",
-  // unused — Bitcoin/Zcash have their own adapters
+  // unused - Bitcoin/Zcash have their own adapters
   bitcoin: "",
   zcash: "",
 };
@@ -59,7 +59,7 @@ const QUERY: Record<ChainKind, string> = {
 interface ZerionPositionAttributes {
   // "wallet" = a plain token balance; anything else is a protocol/staked position.
   position_type?: string;
-  // e.g. "lending", "liquidity_pool", "staking" — present for DeFi positions.
+  // e.g. "lending", "liquidity_pool", "staking" - present for DeFi positions.
   protocol_module?: string;
   name?: string;
   quantity?: { float?: number };
@@ -117,7 +117,7 @@ function makeAdapter(chain: ChainKind): ChainAdapter {
     async getHoldings(address: string): Promise<AdapterResult> {
       if (!AUTH) {
         return emptyResult(
-          "Zerion API key not set — EVM & Solana tokens and DeFi positions are not tracked yet.",
+          "Zerion API key not set - EVM & Solana tokens and DeFi positions are not tracked yet.",
         );
       }
 
@@ -134,7 +134,7 @@ function makeAdapter(chain: ChainKind): ChainAdapter {
           failed: true,
           warnings: [
             THROTTLE_RE.test(msg)
-              ? "Zerion rate limit reached (1 req/s) — try Refresh again in a moment."
+              ? "Zerion rate limit reached (1 req/s) - try Refresh again in a moment."
               : `${chain} fetch failed: ${msg}`,
           ],
         };
@@ -163,7 +163,7 @@ function makeAdapter(chain: ChainKind): ChainAdapter {
       // Solana DeFi positions aren't queryable via Zerion yet (only_simple only).
       const warnings =
         chain === "solana"
-          ? ["Solana DeFi positions aren't covered by Zerion yet — tokens only."]
+          ? ["Solana DeFi positions aren't covered by Zerion yet - tokens only."]
           : [];
 
       return { rows, totalUsd: sumRows(rows), warnings };

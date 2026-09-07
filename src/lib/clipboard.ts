@@ -1,6 +1,6 @@
 // Copy text to the clipboard, returning whether it succeeded.
 // The modern navigator.clipboard API only exists in secure contexts (https or
-// localhost) — over plain http on a LAN IP it's undefined, so we fall back to
+// localhost) - over plain http on a LAN IP it's undefined, so we fall back to
 // the legacy hidden-textarea + execCommand approach.
 export async function copyToClipboard(text: string): Promise<boolean> {
   if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {

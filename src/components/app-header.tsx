@@ -17,7 +17,7 @@ const NAV = [
 export function AppHeader() {
   const pathname = usePathname();
   // The brand logo links to /dashboard, but the loading spinner should appear
-  // on the Dashboard nav tab — not on the logo. Track the logo's navigation
+  // on the Dashboard nav tab - not on the logo. Track the logo's navigation
   // here and feed it to that tab's LinkLabel via `forcePending`.
   const [brandToDashboardPending, setBrandToDashboardPending] = useState(false);
 
@@ -43,7 +43,7 @@ export function AppHeader() {
             </SubmitButton>
           </form>
         </div>
-        {/* Nav tabs on their own row — scroll horizontally on very small screens */}
+        {/* Nav tabs on their own row - scroll horizontally on very small screens */}
         <nav className="flex items-center gap-1 overflow-x-auto pb-2 text-sm sm:pb-3">
           {NAV.map((item) => {
             const active = pathname === item.href;

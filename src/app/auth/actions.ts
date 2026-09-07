@@ -48,7 +48,7 @@ export async function login(formData: FormData) {
     email,
     password: key,
   });
-  // Don't echo the provider message — a wrong key shouldn't leak whether an
+  // Don't echo the provider message - a wrong key shouldn't leak whether an
   // account exists. It's either valid or it isn't.
   if (error) fail("/login", "Invalid access key.");
 
@@ -58,20 +58,20 @@ export async function login(formData: FormData) {
 }
 
 // Returned to the signup page via useActionState so it can reveal the generated
-// key (we can't redirect — the key must be shown exactly once, then it's gone).
+// key (we can't redirect - the key must be shown exactly once, then it's gone).
 export type SignupState =
   | { ok: true; key: string }
   | { ok: false; error: string }
   | null;
 
 // No params: useActionState passes (prevState, formData), but signup needs
-// neither — a zero-arg function is assignable to that signature.
+// neither - a zero-arg function is assignable to that signature.
 export async function signup(): Promise<SignupState> {
   if (!isSupabaseConfigured || !hasAdminClient) {
     return {
       ok: false,
       error:
-        "Auth isn't fully configured — SUPABASE_SERVICE_ROLE_KEY is required to mint accounts.",
+        "Auth isn't fully configured - SUPABASE_SERVICE_ROLE_KEY is required to mint accounts.",
     };
   }
 

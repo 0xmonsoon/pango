@@ -1,4 +1,4 @@
-// Pure display helpers — no server-only imports, so Client Components can use them.
+// Pure display helpers - no server-only imports, so Client Components can use them.
 
 export function formatUsd(value: number): string {
   return new Intl.NumberFormat("en-US", {

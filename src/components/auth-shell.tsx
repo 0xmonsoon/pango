@@ -44,7 +44,7 @@ export function AuthShell({
 
           {!isSupabaseConfigured ? (
             <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-700/50 dark:bg-amber-950/40 dark:text-amber-300">
-              Supabase keys not set yet — auth is disabled. Add them to
+              Supabase keys not set yet - auth is disabled. Add them to
               <code className="mx-1 font-mono">.env.local</code> to enable.
             </p>
           ) : null}

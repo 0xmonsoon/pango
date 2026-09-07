@@ -104,7 +104,7 @@ export function combinePortfolio(parts: WalletHoldings[]): Portfolio {
   };
 }
 
-// Live aggregation with no caching — used by tests and as a fallback path.
+// Live aggregation with no caching - used by tests and as a fallback path.
 export async function aggregateWallets(wallets: Wallet[]): Promise<Portfolio> {
   if (wallets.length === 0) return emptyPortfolio(0);
   const parts = await Promise.all(

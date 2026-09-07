@@ -15,7 +15,7 @@ export default async function AccountPage() {
       </h1>
       <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
         This is the only credential for your account. Keep it in a password
-        manager — it can&apos;t be reset or recovered.
+        manager - it can&apos;t be reset or recovered.
       </p>
 
       <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
@@ -23,7 +23,7 @@ export default async function AccountPage() {
           <KeyBox accessKey={accessKey} />
         ) : (
           <p className="text-sm text-zinc-600 dark:text-zinc-300">
-            Your key isn&apos;t available in this session — for security it&apos;s
+            Your key isn&apos;t available in this session - for security it&apos;s
             only held after you sign in on a device. Sign out and back in with your
             key to view it here again.
           </p>

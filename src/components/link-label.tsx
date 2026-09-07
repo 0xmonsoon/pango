@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useLinkStatus } from "next/link";
 
 // Wraps a <Link>'s label. While the link's navigation is pending
-// (useLinkStatus) — or when `forcePending` is set by an external trigger — it
+// (useLinkStatus) - or when `forcePending` is set by an external trigger - it
 // hides the label and overlays a centered spinner in its place. The label stays
 // in the layout (just `invisible`), so it keeps reserving its own width: the
 // link never changes size and the spinner is perfectly centered, with no extra
@@ -36,7 +36,7 @@ export function LinkLabel({
 
 // Reports its parent <Link>'s pending state to a parent component without
 // rendering anything itself. Use it to drive a loading indicator that lives
-// somewhere *other* than the clicked link — e.g. the brand logo links to
+// somewhere *other* than the clicked link - e.g. the brand logo links to
 // /dashboard, but the spinner should show on the Dashboard nav tab. Must be
 // rendered as a descendant of a <Link>; `onChange` should be a stable setter.
 export function LinkStatusReporter({

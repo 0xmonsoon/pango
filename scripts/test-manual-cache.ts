@@ -1,4 +1,4 @@
-// Run: bun scripts/test-manual-cache.ts — no real network or database writes.
+// Run: bun scripts/test-manual-cache.ts - no real network or database writes.
 import assert from "node:assert/strict";
 import { getManualPrices } from "@/lib/prices/manual-cache";
 

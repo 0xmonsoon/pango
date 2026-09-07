@@ -32,7 +32,7 @@ body {
   background-size: 1rem;
 }
 
-/* Tailwind v4's Preflight resets buttons to cursor:default — restore pointer. */
+/* Tailwind v4's Preflight resets buttons to cursor:default - restore pointer. */
 @layer base {
   button:not(:disabled),
   [role="button"]:not(:disabled),

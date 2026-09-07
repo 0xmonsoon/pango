@@ -85,7 +85,7 @@ function WalletAssets({ breakdown }: { breakdown: WalletBreakdown | undefined })
       <div className="px-4 py-4 text-xs text-zinc-400 sm:px-5">
         {breakdown?.warnings?.length
           ? breakdown.warnings.join(" · ")
-          : "No priced assets yet — refresh on the dashboard to load balances."}
+          : "No priced assets yet - refresh on the dashboard to load balances."}
       </div>
     );
   }
@@ -104,7 +104,7 @@ function WalletAssets({ breakdown }: { breakdown: WalletBreakdown | undefined })
             <tr key={`${r.symbol ?? r.name}-${i}`}>
               <td className="px-4 py-2 sm:px-5">
                 <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                  {r.symbol ?? r.name ?? "—"}
+                  {r.symbol ?? r.name ?? "-"}
                 </span>
                 {r.kind === "defi" ? (
                   <span className="ml-2 rounded bg-zinc-100 px-1.5 py-0.5 text-[10px] uppercase text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
@@ -114,7 +114,7 @@ function WalletAssets({ breakdown }: { breakdown: WalletBreakdown | undefined })
               </td>
               <td className="px-4 py-2 text-right tabular-nums text-zinc-600 dark:text-zinc-300 sm:px-5">
                 {r.amount === null
-                  ? "—"
+                  ? "-"
                   : r.amount.toLocaleString(undefined, { maximumFractionDigits: 6 })}
               </td>
               <td className="px-4 py-2 text-right font-medium tabular-nums text-zinc-900 dark:text-zinc-100 sm:px-5">
